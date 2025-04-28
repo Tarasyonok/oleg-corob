@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/homepage/home.css' %}">
+
+  <!-- Newspaper Header Section -->
+  <header class="newspaper-header text-center mb-4">
+    <div class="newspaper-title-border">
+      <h1 class="newspaper-title">About us</h1>
+      <p class="newspaper-date">{{ current_date|date:"F j, Y" }}</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="newspaper-content">
+    <!-- Article 1 -->
+    <article class="newspaper-article">
+      <h2 class="article-headline">PROTECTING HUMAN RIGHTS</h2>
+      <h3 class="article-subhead">Defending Rights and Freedom Around the World</h3>
+      <div class="article-body">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat nulla et porta porttitor. Praesent magna nulla, gravida a ornare vel, eleifend quis nisi. In commodo lectus libero, a fringilla risus consectetur quis.</p>
+        <p>Mauris ornare, sapien sit amet dignissim aliquam, nibh magna sagittis odio, non lobortis nisi est vitae diam. Praesent pellentesque, turpis a scelerisque blandit, ligula neque faucibus nisi, ut condimentum turpis diam dictum lorem.</p>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="newspaper-article">
+      <h2 class="article-headline">SLOVENIA POLICE TRIBUNAL</h2>
+      <h3 class="article-subhead">International Court Hears Landmark Case</h3>
+      <div class="article-body">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat nulla et porta porttitor. Praesent magna nulla, gravida a ornare vel, eleifend quis nisi. In commodo lectus libero, a fringilla risus consectetur quis.</p>
+        <p>Mauris ornare, sapien sit amet dignissim aliquam, nibh magna sagittis odio, non lobortis nisi est vitae diam. Praesent pellentesque, turpis a scelerisque blandit, ligula neque faucibus nisi, ut condimentum turpis diam dictum lorem.</p>
+      </div>
+    </article>
+
+    <!-- Article 3 -->
+    <article class="newspaper-article">
+      <h2 class="article-headline">BIG HUMAN RIGHT VIOLATION</h2>
+      <h3 class="article-subhead">Shocking Revelations Surface</h3>
+      <div class="article-body">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam feugiat nulla et porta porttitor. Praesent magna nulla, gravida a ornare vel, eleifend quis nisi. In commodo lectus libero, a fringilla risus consectetur quis.</p>
+        <p>Mauris ornare, sapien sit amet dignissim aliquam, nibh magna sagittis odio, non lobortis nisi est vitae diam. Praesent pellentesque, turpis a scelerisque blandit, ligula neque faucibus nisi, ut condimentum turpis diam dictum lorem.</p>
+      </div>
+    </article>
+  </main>
+{% endblock %}

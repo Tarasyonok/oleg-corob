@@ -1,0 +1,87 @@
+/* Base Newspaper Styling */
+.newspaper-header {
+  border-bottom: 1px solid #000;
+}
+
+.newspaper-title-border {
+  border-top: 1px solid #000;
+  padding: 1rem 0 0.2rem;
+}
+
+.newspaper-title {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.newspaper-date {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 1rem;
+  margin: 0.5rem 0 0;
+}
+
+.newspaper-subheader {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 0.9rem;
+}
+
+.newspaper-content {
+  column-count: 2;
+  column-gap: 3rem;
+}
+
+.newspaper-article {
+  break-inside: avoid;
+  margin-bottom: 2rem;
+}
+
+.article-headline {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 1rem 0 0.5rem;
+  line-height: 1.2;
+}
+
+.article-subhead {
+  font-family: "Luxurious Roman", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0 0 1rem;
+  color: #444;
+}
+
+.article-body {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 1rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.article-body p {
+  margin: 0 0 1rem;
+  color: #000000BF;
+}
+
+.newspaper-footer {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 0.8rem;
+  border-top: 1px solid #000;
+  padding-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .newspaper-content {
+    column-count: 1;
+  }
+
+  .newspaper-title {
+    font-size: 2rem;
+  }
+}

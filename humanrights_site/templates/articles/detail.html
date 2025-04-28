@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+  <article class="mb-5">
+    <h1>{{ article.title|safe }}</h1>
+    <p class="text-muted mb-4">
+      Published on {{ article.created_at|date:"F j, Y" }} 
+      <span class="badge bg-secondary ms-2">{{ article.get_language_display }}</span>
+    </p>
+    
+    <div class="article-content mb-5">
+      {{ article.content|safe|linebreaks }}
+    </div>
+
+    <!-- Attachments -->
+    {% if article.attachments.all %}
+      <div class="card">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Attached Files</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for attachment in article.attachments.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ attachment.name }}</span>
+              <div>
+                <a href="{{ attachment.file.url }}" class="btn btn-sm btn-outline-secondary me-2" download>
+                  Download
+                </a>
+                <a href="#" class="btn btn-sm btn-primary" onclick="openPDF('{{ attachment.file.url }}')">
+                  Read Online
+                </a>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </article>
+
+  <!-- PDF Viewer Modal -->
+  <div class="modal fade" id="pdfModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="d-flex align-items-center justify-content-between w-100">
+            <h5 class="modal-title" id="pdfModalTitle">Loading PDF...</h5>
+            <button onclick="window.open('{{ attachment.file.url }}')" class="btn btn-sm btn-primary mx-5">
+              <i class="bi bi-download"></i> Download
+            </button>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <!-- Loading Spinner -->
+          <div id="pdfLoading" class="my-5 py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading PDF...</p>
+          </div>
+
+          <!-- Error Message (Hidden by Default) -->
+          <div id="pdfError" class="alert alert-danger d-none">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span id="errorText">Failed to load PDF.</span>
+          </div>
+
+          <!-- PDF Viewer -->
+          <div id="pdfViewerContainer" class="d-none">
+            <div class="d-flex align-items-center justify-content-around w-80 mx-auto my-3">
+              <div>
+                <button id="prevPage" class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-arrow-left"></i> Previous
+                </button>
+                <span id="pageNum" class="mx-2">Page: 1</span>
+                <button id="nextPage" class="btn btn-sm btn-outline-secondary">
+                  Next <i class="bi bi-arrow-right"></i>
+                </button>
+              </div>
+              <div>
+                <button id="zoomOut" class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-zoom-out"></i>
+                </button>
+                <span id="zoomLevel" class="mx-2">100%</span>
+                <button id="zoomIn" class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-zoom-in"></i>
+                </button>
+              </div>
+            </div>
+            <canvas id="pdfCanvas" class="border shadow-sm"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function openPDF(url) {
+      const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+      const pdfTitle = document.getElementById('pdfModalTitle');
+      const canvas = document.getElementById('pdfCanvas');
+      const ctx = canvas.getContext('2d');
+      const pageNumEl = document.getElementById('pageNum');
+      const zoomLevelEl = document.getElementById('zoomLevel');
+      const pdfViewerContainer = document.getElementById('pdfViewerContainer');
+      const pdfLoading = document.getElementById('pdfLoading');
+      const pdfError = document.getElementById('pdfError');
+      const errorText = document.getElementById('errorText');
+
+      // Reset UI on open
+      pdfViewerContainer.classList.add('d-none');
+      pdfError.classList.add('d-none');
+      pdfLoading.classList.remove('d-none');
+      modal.show();
+
+      // PDF.js Variables
+      let pdfDoc = null,
+          pageNum = 1,
+          pageRendering = false,
+          pageNumPending = null,
+          currentScale = 1.0;
+
+      // Load the PDF
+      pdfjsLib.getDocument(url).promise.then(
+        function(pdf) {
+          pdfDoc = pdf;
+          pdfTitle.textContent = "PDF Viewer";
+          pdfLoading.classList.add('d-none');
+          pdfViewerContainer.classList.remove('d-none');
+          renderPage(pageNum);
+        },
+        function(error) {
+          console.error("PDF load error:", error);
+          pdfLoading.classList.add('d-none');
+          errorText.textContent = error.message || "Failed to load PDF. Check the file or URL.";
+          pdfError.classList.remove('d-none');
+        }
+      );
+
+      // Render a Page
+      function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(
+          function(page) {
+            const viewport = page.getViewport({ scale: currentScale });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+              canvasContext: ctx,
+              viewport: viewport
+            };
+
+            page.render(renderContext).promise.then(function() {
+              pageRendering = false;
+              pageNumEl.textContent = `Page: ${num} / ${pdfDoc.numPages}`;
+              zoomLevelEl.textContent = `${Math.round(currentScale * 100)}%`;
+              if (pageNumPending !== null) {
+                renderPage(pageNumPending);
+                pageNumPending = null;
+              }
+            });
+          },
+          function(error) {
+            console.error("Page render error:", error);
+            pdfError.classList.remove('d-none');
+            errorText.textContent = "Error rendering this page.";
+          }
+        );
+      }
+
+      // Navigation Controls
+      document.getElementById('prevPage').addEventListener('click', function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+      });
+
+      document.getElementById('nextPage').addEventListener('click', function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+      });
+
+      // Zoom Controls
+      document.getElementById('zoomIn').addEventListener('click', function() {
+        if (currentScale >= 3.0) return;
+        currentScale += 0.25;
+        queueRenderPage(pageNum);
+      });
+
+      document.getElementById('zoomOut').addEventListener('click', function() {
+        if (currentScale <= 0.5) return;
+        currentScale -= 0.25;
+        queueRenderPage(pageNum);
+      });
+
+      function queueRenderPage(num) {
+        if (pageRendering) {
+          pageNumPending = num;
+        } else {
+          renderPage(num);
+        }
+      }
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/includes/header.css' %}">
+
+<header class="site-header">
+    <div class="header-top">
+        <div class="header-title">RDE</div>
+        <div class="header-actions">
+            <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
+            <button class="search-toggle" aria-label="Toggle search">🔍</button>
+        </div>
+    </div>
+
+    <nav class="main-nav">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/articles/">Articles</a></li>
+            <li><a href="/contact/">Contact</a></li>
+        </ul>
+
+        <div class="search-bar">
+            <form action="/search/" method="get">
+                <input type="text" name="q" placeholder="Search the archives...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<script src="{% static 'js/includes/header.js' %}"></script>
