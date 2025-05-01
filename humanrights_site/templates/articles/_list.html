@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/articles/list.css' %}">
+
+<div class="newspaper-articles-header">
+  <h1 class="newspaper-section-title">Articles Archive</h1>
+  <p class="newspaper-section-subtitle">Browse our collection of investigative reports</p>
+
+  <button class="filter-toggle-btn">
+    <span class="filter-toggle-icon">✚</span>
+    <span class="filter-toggle-text">Show Filters</span>
+  </button>
+</div>
+
+<!-- Filter Form - Newspaper Style -->
+<form method="get" class="newspaper-filter-form hidden">
+  <div class="filter-grid">
+    <!-- Text Search -->
+    <div class="filter-group">
+      <label class="filter-label">Search Headlines</label>
+      <textarea
+        name="search"
+        class="filter-input"
+        placeholder="Search titles or content..."
+        rows="4"
+      >{{ current_filters.search }}</textarea>
+    </div>
+
+    <!-- Language Select -->
+    <div class="filter-group">
+      <label class="filter-label">Language</label>
+      <select
+        name="language"
+        class="filter-select"
+        multiple
+      >
+        {% for code, name in LanguageChoices %}
+          <option
+            value="{{ code }}"
+            {% if code in current_filters.languages %}selected{% endif %}
+          >
+            {{ name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Topic Select -->
+    <div class="filter-group">
+      <label class="filter-label">Topics</label>
+      <select
+        name="topic"
+        class="filter-select"
+        multiple
+      >
+        {% for code, name in TopicChoices %}
+          <option
+            value="{{ code }}"
+            {% if code in current_filters.topics %}selected{% endif %}
+          >
+            {{ name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Date Range -->
+    <div class="filter-group date-range">
+      <label class="filter-label">Date Range</label>
+      <div class="date-inputs">
+        <span class="date-prefix">From</span>
+        <input
+          type="date"
+          name="date_from"
+          class="filter-date"
+          value="{{ current_filters.date_from }}"
+        >
+        <span class="date-separator">to</span>
+        <input
+          type="date"
+          name="date_to"
+          class="filter-date"
+          value="{{ current_filters.date_to }}"
+        >
+      </div>
+    </div>
+
+    <!-- Sorting -->
+    <div class="filter-group">
+      <label class="filter-label">Sort By</label>
+      <select name="sort" class="filter-select">
+        <option
+          value="-created_at"
+          {% if current_filters.sort == '-created_at' %}selected{% endif %}
+        >
+          Newest First
+        </option>
+        <option
+          value="created_at"
+          {% if current_filters.sort == 'created_at' %}selected{% endif %}
+        >
+          Oldest First
+        </option>
+      </select>
+    </div>
+
+    <!-- Buttons -->
+    <div class="filter-buttons">
+      <button type="submit" class="filter-button apply">
+        <span class="button-icon">✎</span>Apply Filters
+      </button>
+      <a href="{% url 'articles:article-list' %}" class="filter-button reset">
+        <span class="button-icon">↻</span>Reset
+      </a>
+    </div>
+  </div>
+</form>
+
+<!-- Article Cards - Newspaper Style -->
+<div class="newspaper-articles-grid">
+  {% for article in articles %}
+    <article class="newspaper-article-card">
+      <div class="article-card-content">
+        <div class="article-meta">
+          <span class="article-language">{{ article.language|upper }}</span>
+          <span class="article-date">{{ article.created_at|date:"M d, Y" }}</span>
+        </div>
+        <h2 class="article-title">{{ article.title|safe }}</h2>
+        <p class="article-excerpt">
+          {{ article.content|safe|striptags|truncatewords:30 }}
+        </p>
+        <a href="{% url 'articles:article-detail' article.pk %}" class="read-more">
+          Continue Reading <span class="arrow">→</span>
+        </a>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+
+<!-- Pagination - Newspaper Style -->
+{% if is_paginated %}
+<nav class="newspaper-pagination">
+  <div class="pagination-info">
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+  </div>
+  <ul class="pagination-links">
+    {% if page_obj.has_previous %}
+      <li>
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link prev">
+          ‹ Previous
+        </a>
+      </li>
+    {% endif %}
+    {% if page_obj.has_next %}
+      <li>
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-link next">
+          Next ›
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+<script src="{% static 'js/articles/list.js' %}"></script>
+{% endblock %}

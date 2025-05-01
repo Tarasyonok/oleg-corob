@@ -14,7 +14,7 @@ class ArticleListView(django.views.generic.ListView):
     model = Article
     template_name = "articles/list.html"
     context_object_name = "articles"
-    paginate_by = 9
+    paginate_by = 2
 
     def get_queryset(self):
         queryset = super().get_queryset()

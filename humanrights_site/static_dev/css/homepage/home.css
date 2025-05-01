@@ -1,20 +1,45 @@
+.container {
+  position: relative;
+}
+
 /* Base Newspaper Styling */
 .newspaper-header {
   border-bottom: 1px solid #000;
-}
-
-.newspaper-title-border {
-  border-top: 1px solid #000;
-  padding: 1rem 0 0.2rem;
 }
 
 .newspaper-title {
   font-family: "Kelly Slab", sans-serif;
   font-size: 3rem;
   font-weight: 400;
+  margin: -1rem 0 0.4rem;
+  letter-spacing: 1px;
+}
+
+.newspaper-subhead {
+  font-family: "Luxurious Roman", serif;
+  font-size: 1.2rem;
+  font-weight: 400;
   margin: 0;
+  color: #D5D3C3;
+}
+
+.newspaper-sub-title {
+  font-family: "Kelly Slab", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-bottom: 0;
+  margin-top: 26px;
+}
+
+.newspaper-sub-subhead {
+  font-family: "Luxurious Roman", serif;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0 0 1rem;
+  color: #000;
 }
 
 .newspaper-date {
@@ -28,11 +53,6 @@
   font-size: 0.9rem;
 }
 
-.newspaper-content {
-  column-count: 2;
-  column-gap: 3rem;
-}
-
 .newspaper-article {
   break-inside: avoid;
   margin-bottom: 2rem;
@@ -43,7 +63,6 @@
   font-size: 1.5rem;
   font-weight: 400;
   text-transform: uppercase;
-  margin: 1rem 0 0.5rem;
   line-height: 1.2;
 }
 
@@ -61,11 +80,23 @@
   font-size: 1rem;
   text-align: justify;
   hyphens: auto;
+  margin-top: 20px;
 }
 
 .article-body p {
+  max-width: 520px;
+  z-index: 2;
   margin: 0 0 1rem;
   color: #000000BF;
+}
+
+.bg-logo {
+  z-index: 1;
+  opacity: 26%;
+  width: 412px;
+  height: 412px;
+  position: absolute;
+  right: -130px;
 }
 
 .newspaper-footer {
@@ -84,4 +115,10 @@
   .newspaper-title {
     font-size: 2rem;
   }
+}
+
+@media (max-width: 1200px) {
+  .bg-logo {
+      right: 0;
+    }
 }
