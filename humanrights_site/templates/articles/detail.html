@@ -25,9 +25,6 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
               <span>{{ attachment.name }}</span>
               <div>
-                <a href="{{ attachment.file.url }}" class="btn btn-sm btn-outline-secondary me-2" download>
-                  Download
-                </a>
                 <a href="#" class="btn btn-sm btn-primary" onclick="openPDF('{{ attachment.file.url }}')">
                   Read Online
                 </a>
@@ -46,9 +43,6 @@
         <div class="modal-header">
           <div class="d-flex align-items-center justify-content-between w-100">
             <h5 class="modal-title" id="pdfModalTitle">Loading PDF...</h5>
-            <button onclick="window.open('{{ attachment.file.url }}')" class="btn btn-sm btn-primary mx-5">
-              <i class="bi bi-download"></i> Download
-            </button>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
