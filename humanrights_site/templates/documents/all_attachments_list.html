@@ -5,7 +5,30 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/documents/all_attachments_list.css' %}">
 
-<div class="container mt-4">
+<!-- Access Restriction Modal -->
+<div class="modal fade access-modal" id="accessModal" tabindex="-1" aria-labelledby="accessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="accessModalLabel">Access Restricted</h5>
+            </div>
+            <div class="modal-body">
+                <p>This page is only accessible to government agencies, human rights defenders, and human rights organizations.</p>
+                <p><strong>Are you one of them?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-yes" id="confirmAccess">Yes</button>
+                <button type="button" class="btn btn-no" id="denyAccess">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Blur overlay for content -->
+<div id="contentOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); z-index: 1040;"></div>
+
+<!-- Original content container with blur class -->
+<div class="container mt-4" id="mainContent" style="filter: blur(0); transition: filter 0.3s ease;">
     <div class="card shadow-sm">
 
         <div class="card-body">
@@ -467,5 +490,64 @@ document.addEventListener('DOMContentLoaded', function() {
     );
     {% endif %}
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const accessModal = new bootstrap.Modal(document.getElementById('accessModal'));
+    const contentOverlay = document.getElementById('contentOverlay');
+    const mainContent = document.getElementById('mainContent');
+
+    // Check if access has already been granted
+    const accessGranted = localStorage.getItem('accessGranted') === 'true';
+
+    if (!accessGranted) {
+        // Show the modal and blur content
+        setTimeout(() => {
+            accessModal.show();
+            contentOverlay.style.display = 'block';
+            mainContent.style.filter = 'blur(5px)';
+            mainContent.style.pointerEvents = 'none';
+        }, 500); // Delay to ensure page is fully loaded
+    }
+
+    // Handle Yes button click
+    document.getElementById('confirmAccess').addEventListener('click', function() {
+        localStorage.setItem('accessGranted', 'true');
+        accessModal.hide();
+        contentOverlay.style.display = 'none';
+        mainContent.style.filter = 'blur(0)';
+        mainContent.style.pointerEvents = 'auto';
+
+        // Remove backdrop
+        const modalBackdrops = document.querySelectorAll('.modal-backdrop');
+        modalBackdrops.forEach(backdrop => backdrop.remove());
+
+        // Re-enable body scrolling
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = 'auto';
+        document.body.style.paddingRight = '0';
+    });
+
+    // Handle No button click
+    document.getElementById('denyAccess').addEventListener('click', function() {
+        // Redirect to home page
+        window.location.href = '/'; // Change this to your home page URL
+    });
+
+    // Prevent modal from being closed by clicking outside or pressing ESC
+    document.getElementById('accessModal').addEventListener('hide.bs.modal', function(event) {
+        if (!localStorage.getItem('accessGranted')) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    });
+
+    // Clear access on logout or when needed (optional)
+    // To manually clear access, you can call: localStorage.removeItem('accessGranted');
+});
+
+// Optional: Add this function to clear access from other pages (e.g., logout)
+function clearAccessPermission() {
+    localStorage.removeItem('accessGranted');
+}
 </script>
 {% endblock %}
