@@ -44,6 +44,7 @@
                         {% for attachment in attachments %}
                         <tr>
                             <td>
+                                <a onclick="openAttachmentModal('{{ attachment.id }}', '{{ attachment.file.url }}', '{{ attachment.name|escapejs }}', '{{ attachment.file.name|lower|slice:'-4:' }}')" class="learn-more-link" style="cursor: pointer;">
                                 {% if attachment.file.name|lower|slice:'-4:' == '.pdf' %}
                                     <i class="fas fa-file-pdf text-danger me-2"></i>
                                 {% else %}
@@ -52,6 +53,7 @@
                                     <strong>
                                         {{ attachment.name|truncatewords:10 }}
                                     </strong>
+                                </a>
                             </td>
                             <td class="text-end">
                                 <a href="{% url 'articles:article-list' %}" class="text-decoration-none">
