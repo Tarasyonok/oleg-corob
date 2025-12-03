@@ -24,11 +24,9 @@
     </div>
 </div>
 
-<!-- Blur overlay for content -->
-<div id="contentOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); z-index: 1040;"></div>
+<div id="contentOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1040;"></div>
 
-<!-- Original content container with blur class -->
-<div class="container mt-4" id="mainContent" style="filter: blur(0); transition: filter 0.3s ease;">
+<div class="container mt-4" id="mainContent">
     <div class="card shadow-sm">
 
         <div class="card-body">
@@ -500,11 +498,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const accessGranted = localStorage.getItem('accessGranted') === 'true';
 
     if (!accessGranted) {
-        // Show the modal and blur content
         setTimeout(() => {
             accessModal.show();
             contentOverlay.style.display = 'block';
-            mainContent.style.filter = 'blur(5px)';
             mainContent.style.pointerEvents = 'none';
         }, 500); // Delay to ensure page is fully loaded
     }
@@ -514,7 +510,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('accessGranted', 'true');
         accessModal.hide();
         contentOverlay.style.display = 'none';
-        mainContent.style.filter = 'blur(0)';
         mainContent.style.pointerEvents = 'auto';
 
         // Remove backdrop
