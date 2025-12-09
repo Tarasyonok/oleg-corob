@@ -1,0 +1,133 @@
+/* Footer - adjusted for exact spacing */
+.figma-footer {
+  background-color: #fff;
+  border-top: 1px solid #828282;
+  padding: 2rem 0;
+  font-family: "Kelly Slab", sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-around; /* Меняем на space-around */
+  align-items: start;
+}
+
+/* Десктоп: Navigation слева, бренд по центру, Contact справа */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  font-family: 'Abril Fatface', serif;
+  flex: 1;
+  align-items: center;
+  position: relative;
+  min-height: 200px;
+  margin-top: -15px;
+}
+
+.footer-navigation {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Центрируем навигацию */
+}
+
+.footer-contacts {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Центрируем контакты */
+}
+
+.links-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center; /* Центрируем пункты списка */
+  text-align: center; /* Центрируем текст */
+}
+
+.links-header {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #000;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.link-item {
+  font-size: 0.9rem;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  text-align: center; /* Центрируем текст ссылок */
+}
+
+.link-item:hover {
+  color: #000;
+}
+
+/* Картинка как подложка под текстом */
+.footer-brand img {
+    position: absolute;
+    opacity: 30%;
+    z-index: 1;
+    width: 300px;
+    top: calc(50% + 25px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.footer-brand .rde-letters {
+    font-family: 'Abril Fatface', serif;
+    letter-spacing: 7px;
+    font-size: 2rem;
+    color: #CCCB86;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-brand p {
+    position: relative;
+    z-index: 2;
+}
+
+/* Мобильная версия - ваш исходный вариант */
+/* Остальной CSS без изменений до мобильной версии */
+
+
+/* Десктоп версия */
+.footer-mobile-links {
+  display: none; /* Скрываем на десктопе */
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+  .footer-navigation,
+  .footer-contacts {
+    display: none; /* Скрываем десктопные блоки */
+  }
+
+  .footer-mobile-links {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 2rem;
+    order: 2;
+  }
+
+  .footer-brand {
+    order: 1;
+    text-align: center;
+    width: 100%;
+    padding-bottom: 1.5rem;
+    min-height: auto;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}

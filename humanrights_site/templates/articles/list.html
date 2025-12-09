@@ -10,9 +10,9 @@
   <article class="newspaper-article-card">
 <!--    <a href="{% url 'articles:article-detail' article.pk %}" class="read-more">-->
       <h2 class="newspaper-article-title">{{ article.title|safe }}</h2>
-      <p class="article-excerpt">
-        {{ article.content|safe }}
-      </p>
+      <div class="article-excerpt">
+        {{ article.content|safe|linebreaks }}
+      </div>
 <!--    </a>-->
   </article>
   {% endfor %}

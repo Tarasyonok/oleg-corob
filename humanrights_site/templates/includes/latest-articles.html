@@ -18,7 +18,7 @@
                 {% for article in latest_articles %}
                     {% if forloop.counter0|divisibleby:2 %} {# Even indices: 0, 2, 4 #}
                     <div class="latest-article-card">
-                        <a href="{% url 'articles:article-list' %}">
+                        <a href="{% url 'articles:article-detail' article.id %}">
                             <div class="card-content">
                                 <h3 class="article-title">{{ article.title|truncatechars:100 }}</h3>
                                 <p class="article-meta desktop-meta">{{ article.created_at|date:"d.m.Y" }}</p>
@@ -41,7 +41,7 @@
                 {% for article in latest_articles %}
                     {% if not forloop.counter0|divisibleby:2 %} {# Odd indices: 1, 3, 5 #}
                     <div class="latest-article-card">
-                        <a href="{% url 'articles:article-list' %}">
+                        <a href="{% url 'articles:article-detail' article.id %}">
                             <div class="card-content">
                                 <h3 class="article-title">{{ article.title|truncatechars:100 }}</h3>
                                 <p class="article-meta desktop-meta">{{ article.created_at|date:"d.m.Y" }}</p>
@@ -62,7 +62,7 @@
             <div class="latest-articles-carousel">
                 {% for article in latest_articles %}
                 <div class="latest-article-card">
-                    <a href="{% url 'articles:article-list' %}">
+                    <a href="{% url 'articles:article-detail' article.id %}">
                         <h3 class="article-title">{{ article.title|truncatechars:100 }}</h3>
                         <p class="article-meta desktop-meta" style="text-align: end;">{{ article.created_at|date:"d.m.Y" }}</p>
                     </a>

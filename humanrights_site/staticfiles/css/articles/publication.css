@@ -1,0 +1,67 @@
+.article-link {
+  text-decoration: none;
+}
+
+.article-meta {
+  font-family: 'abel', sans-serif;
+  font-size: 1rem;
+  /* 16px equivalent */
+  color: rgba(0, 0, 0, 0.75);
+}
+
+/* Articles Grid */
+.newspaper-articles-grid {
+  border-radius: 45px;
+  margin-top: 50px;
+}
+
+.newspaper-article-card {
+  margin-bottom: 2rem;
+}
+
+.newspaper-article-title {
+  font-family: 'Abril Fatface', serif;
+  font-weight: 400; /* Regular */
+  font-size: 25px; /* Adjust based on your design */
+  line-height: 150%; /* ▲ 150% */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.article-excerpt {
+  font-family: "Luxurious Roman", serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.read-more {
+  text-decoration: none;
+  color: inherit;
+}
+
+.jump-to-pub {
+    display: block;
+    margin: auto;
+    margin-top: -50px;
+    margin-bottom: -50px;
+    transform: rotate(90deg);
+}
+
+.documents-explanation p {
+    font-family: "Luxurious Roman", serif;
+    font-size: 1.3rem;
+    color: #767B00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .date-range {
+    grid-column: span 1;
+  }
+}

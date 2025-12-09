@@ -1,0 +1,82 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Abel&display=swap');
+
+/* Title styling - Abril Fatface */
+.title-abril {
+  font-family: 'Abril Fatface', serif;
+  font-weight: 400; /* Regular */
+  font-size: 25px; /* Adjust based on your design */
+  line-height: 150%; /* ▲ 150% */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Paragraph styling - Abel */
+.paragraph-abel {
+  font-family: 'Abel', sans-serif;
+  font-weight: 400; /* Regular */
+  font-size: 16px; /* Regular 16 */
+  line-height: 150%; /* 150% */
+  letter-spacing: 0%; /* 0% */
+  margin-bottom: 2rem;
+  text-align: justify;
+}
+
+/* Learn more link styling */
+.learn-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #AD9B15;
+  font-weight: 500;
+}
+
+.learn-more-link:hover {
+  opacity: 0.8;
+}
+
+.learn-more-link img {
+  width: 8px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.learn-more-link:hover img {
+  transform: translateX(4px);
+}
+
+/* Text blocks container */
+.text-blocks-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .title-abril {
+    font-size: 20px;
+  }
+
+  .paragraph-abel {
+    font-size: 16px;
+  }
+
+  .layout-image {
+    width: 100%;
+    height: auto;
+    max-width: 2186px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-abril {
+    font-size: 1.5rem;
+    letter-spacing: 5px;
+  }
+
+  .text-blocks-container {
+    padding: 1rem;
+  }
+}

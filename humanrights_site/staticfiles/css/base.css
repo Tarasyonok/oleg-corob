@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'abel';
+    src: url('../fonts/abel.otf')
+}
+
+@font-face {
+    font-family: 'abel-bold';
+    src: url('../fonts/abel-bold.otf')
+}
+
+body {
+  background-color: #fff;
+  color: #222;
+  line-height: 1.4;
+  margin: 0 auto;
+}
+
+.container {
+  margin: 20px auto 50px;
+}

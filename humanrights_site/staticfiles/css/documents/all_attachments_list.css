@@ -1,0 +1,108 @@
+.table thead.table-light tr th {
+    background-color: #CBD054;
+}
+
+.table thead.table-light th {
+    font-family: "Luxurious Roman", serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.table .btn-group.btn-group-sm .learn-more-link {
+    font-family: "Luxurious Roman", serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #AD9B15;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.table .btn-group.btn-group-sm .learn-more-link:hover {
+  opacity: 0.8;
+}
+
+.table .btn-group.btn-group-sm .learn-more-link img {
+  width: 8px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.table .btn-group.btn-group-sm .learn-more-link:hover img {
+  transform: translateX(4px);
+}
+
+/* Access Modal Styling */
+.access-modal .modal-content {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.access-modal .modal-header {
+    background-color: #CBD054;
+    border-bottom: none;
+    padding: 1.5rem;
+    border-radius: 8px 8px 0 0;
+}
+
+.access-modal .modal-title {
+    font-family: "Luxurious Roman", serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #333;
+    text-align: center;
+    width: 100%;
+}
+
+.access-modal .modal-body {
+    padding: 2rem;
+    font-family: "Luxurious Roman", serif;
+    font-size: 1.3rem;
+    text-align: center;
+    line-height: 1.6;
+    color: #555;
+}
+
+.access-modal .modal-footer {
+    border-top: none;
+    padding: 1.5rem 2rem 2rem;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.access-modal .btn {
+    font-family: "Luxurious Roman", serif;
+    font-size: 1.2rem;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.access-modal .btn-yes {
+    background-color: #CBD054;
+    border: 2px solid #CBD054;
+    color: #333;
+}
+
+.access-modal .btn-yes:hover {
+    background-color: #b8c04a;
+    border-color: #b8c04a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(203, 208, 84, 0.3);
+}
+
+.access-modal .btn-no {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    color: #495057;
+}
+
+.access-modal .btn-no:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

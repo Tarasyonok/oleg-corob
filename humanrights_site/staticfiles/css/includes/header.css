@@ -1,0 +1,147 @@
+/* static/css/components/header.css */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Abel&display=swap');
+
+.yellow-line {
+  width: 100%;
+  height: 45px;
+  background-color: #EEE8A9;
+}
+
+.green-line {
+  width: 100%;
+  height: 12px;
+  background-color: #CBD054;
+}
+
+/* ===== Base Styles ===== */
+.site-header {
+    position: relative;
+    z-index: 100;
+}
+
+/* ===== Desktop Navigation ===== */
+.desktop-nav {
+    display: flex !important;
+    width: 100%;
+    justify-content: center;
+    gap: 3rem;
+    list-style: none;
+    margin: 0;
+    padding: 1.5rem 2rem;
+}
+
+.desktop-nav a {
+    position: relative;
+    color: #333;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+}
+
+.desktop-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #333;
+    transition: width 0.3s ease;
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+    width: 100%;
+}
+
+/* ===== Mobile Elements (Hidden by Default) ===== */
+.vertical-line-container.mobile-only,
+.mobile-menu-toggle,
+.mobile-nav {
+    display: none;
+}
+
+/* ===== Mobile Breakpoint (768px and below) ===== */
+@media (max-width: 768px) {
+
+
+    /* Show burger button */
+    .mobile-menu-toggle {
+        display: block;
+        background: #fff;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 1rem;
+        position: fixed;
+        left: 15px;
+        /* 55px + 24px */
+        top: 15px;
+        z-index: 101;
+    }
+
+    .burger-line {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background-color: #333;
+        margin: 5px 0;
+        transition: all 0.3s ease;
+    }
+
+    /* Hide desktop nav */
+    .desktop-nav {
+        display: none !important;
+    }
+
+    /* Setup mobile nav (initially hidden) */
+    .mobile-nav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        transition: left 0.3s ease;
+        padding: 5rem 2rem;
+    }
+
+    .mobile-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mobile-nav li {
+        margin-bottom: 1.5rem;
+    }
+
+    .mobile-nav a {
+        color: #333;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.2rem;
+    }
+
+    /* Active states */
+    .mobile-menu-toggle.active .burger-line:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-menu-toggle.active .burger-line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-menu-toggle.active .burger-line:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-nav.active {
+        left: 0;
+        display: block;
+    }
+}

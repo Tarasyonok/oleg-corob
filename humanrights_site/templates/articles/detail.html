@@ -1,17 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/articles/publication.css' %}">
+
   <article class="mb-5">
-    <h1>{{ article.title|safe }}</h1>
+    <h1 class="newspaper-article-title mt-5">{{ article.title|safe }}</h1>
     <p class="text-muted mb-4">
-      Published on {{ article.created_at|date:"F j, Y" }} 
-      <span class="badge bg-secondary ms-2">{{ article.get_language_display }}</span>
+      Published on {{ article.created_at|date:"F j, Y" }}
     </p>
     
-    <div class="article-content mb-5">
+    <div class="article-content mb-5 article-excerpt">
       {{ article.content|safe|linebreaks }}
     </div>
   </article>
+
+<div class="documents-explanation">
+  <p>
+    All documents confirming human rights violations and inhumane treatment of patients by Slovenian medical workers are available on our website in the “Document” section https://rdeaps.com/. The annotation to this report provides the file numbers containing the necessary documents, along with a brief description.
+  </p>
+</div>
+
+
 {% endblock %}
