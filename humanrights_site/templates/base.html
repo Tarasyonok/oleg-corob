@@ -41,7 +41,7 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
     function reloadOnceEveryTenMinutes() {
     const lastReloadKey = 'lastPageReload';
-    const tenMinutes = 10 * 60 * 1000; // 10 minutes in milliseconds
+    const tenMinutes = 5 * 60 * 1000; // 10 minutes in milliseconds
     const now = Date.now();
 
     // Get the last reload timestamp

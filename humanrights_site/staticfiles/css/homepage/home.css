@@ -9,6 +9,10 @@
   text-align: left;
 }
 
+.title-abril a {
+  color: #000;
+}
+
 /* Paragraph styling - Abel */
 .paragraph-abel {
   font-family: 'Abel', sans-serif;
