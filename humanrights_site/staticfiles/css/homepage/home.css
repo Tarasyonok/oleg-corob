@@ -1,14 +1,12 @@
-/* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Abel&display=swap');
 
-/* Title styling - Abril Fatface */
 .title-abril {
   font-family: 'Abril Fatface', serif;
-  font-weight: 400; /* Regular */
-  font-size: 25px; /* Adjust based on your design */
-  line-height: 150%; /* ▲ 150% */
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 150%;
   margin-bottom: 2rem;
-  text-align: center;
+  text-align: left;
 }
 
 /* Paragraph styling - Abel */
