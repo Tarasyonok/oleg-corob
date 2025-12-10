@@ -8,20 +8,11 @@
 <div class="newspaper-articles-grid">
   {% for article in articles %}
   <article class="newspaper-article-card">
-<!--    <a href="{% url 'articles:article-detail' article.pk %}" class="read-more">-->
+    <a href="{% url 'articles:article-detail' article.pk %}" class="read-more">
       <h2 class="newspaper-article-title">{{ article.title|safe }}</h2>
-      <div class="article-excerpt">
-        {{ article.content|safe|linebreaks }}
-      </div>
-<!--    </a>-->
+    </a>
   </article>
   {% endfor %}
-</div>
-
-<div class="documents-explanation">
-  <p>
-    All documents confirming human rights violations and inhumane treatment of patients by Slovenian medical workers are available on our website in the “Document” section https://rdeaps.com/. The annotation to this report provides the file numbers containing the necessary documents, along with a brief description.
-  </p>
 </div>
 
 <!-- Pagination -->

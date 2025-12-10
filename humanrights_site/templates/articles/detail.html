@@ -15,11 +15,19 @@
     </div>
   </article>
 
+{% if article.id == 42 %}
 <div class="documents-explanation">
   <p>
     All documents confirming human rights violations and inhumane treatment of patients by Slovenian medical workers are available on our website in the “Document” section https://rdeaps.com/. The annotation to this report provides the file numbers containing the necessary documents, along with a brief description.
   </p>
 </div>
+{% elif article.id == 44 %}
+<div class="documents-explanation">
+  <p>
+    You can view the documents in the files on which this report is based on the documents page at the link: https://rdeaps.com/documents/. Please confirm your status by clicking the button: Yes.
+  </p>
+</div>
+{% endif %}
 
 
 {% endblock %}

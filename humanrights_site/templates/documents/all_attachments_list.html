@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.getElementById('mainContent');
 
     // Check if access has already been granted
-    const accessGranted = localStorage.getItem('accessGranted') === 'true';
+    const accessGranted = false;
 
     if (!accessGranted) {
         setTimeout(() => {
@@ -529,22 +529,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Redirect to home page
         window.location.href = '/'; // Change this to your home page URL
     });
-
-    // Prevent modal from being closed by clicking outside or pressing ESC
-    document.getElementById('accessModal').addEventListener('hide.bs.modal', function(event) {
-        if (!localStorage.getItem('accessGranted')) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    });
-
-    // Clear access on logout or when needed (optional)
-    // To manually clear access, you can call: localStorage.removeItem('accessGranted');
 });
-
-// Optional: Add this function to clear access from other pages (e.g., logout)
-function clearAccessPermission() {
-    localStorage.removeItem('accessGranted');
-}
 </script>
 {% endblock %}
