@@ -49,9 +49,9 @@ class ArticleListView(django.views.generic.ListView):
             queryset = queryset.filter(created_at__lte=date_to)
 
         # 5. Sorting
-        sort = params.get('sort', '-created_at')  # Default: newest first
+        sort = params.get('sort', 'created_at')  # Default: newest first
         if sort not in ['created_at', '-created_at']:
-            sort = '-created_at'
+            sort = 'created_at'
         queryset = queryset.order_by(sort)
 
         return queryset
