@@ -10,7 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-675@+@o=c02&v)s-03-3ods7#zfgl*+denpn=316x2q89q(w)d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 1
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 ALLOWED_HOSTS = ["*", "rde-corob-oleg.onrender.com", "93.95.226.178", "rdeaps.com", "www.rdeaps.com"]
 CSRF_TRUSTED_ORIGINS = ["https://rde-corob-oleg.onrender.com","https://127.0.0.1", "https://93.95.226.178", "https://rdeaps.com", "https://www.rdeaps.com"]

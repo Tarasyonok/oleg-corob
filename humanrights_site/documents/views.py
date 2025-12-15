@@ -4,6 +4,7 @@ import django.views.generic
 import django.shortcuts
 import django.http
 import documents.models
+from articles.models import Article  # Assuming Article model exists in articles app
 
 
 class AllAttachmentsListView(django.views.generic.ListView):
@@ -14,11 +15,25 @@ class AllAttachmentsListView(django.views.generic.ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        # Filter by selected publication if provided
+        publication_id = self.request.GET.get('publication')
+        if publication_id:
+            queryset = queryset.filter(article_id=publication_id)
+
         return queryset.select_related('article').order_by('order')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['pageTitle'] = "Documents"
+
+        # Get all publications for the filter dropdown
+        context['publications'] = Article.objects.all().order_by('-created_at')
+
+        # Get selected publication ID if any
+        selected_publication = self.request.GET.get('publication')
+        if selected_publication:
+            context['selected_publication'] = int(selected_publication)
 
         # Get the file ID from URL parameter
         file_id = self.request.GET.get('file')

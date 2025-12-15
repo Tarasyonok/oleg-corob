@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/documents/all_attachments_list.css' %}">
+<link href="{% static 'css/includes/latest-articles.css' %}" rel="stylesheet">
 
-<!-- Access Restriction Modal -->
+<!-- Access Restriction Modal (keep as is) -->
 <div class="modal fade access-modal" id="accessModal" tabindex="-1" aria-labelledby="accessModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -27,8 +27,88 @@
 <div id="contentOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1040;"></div>
 
 <div class="container mt-4" id="mainContent">
-    <div class="card shadow-sm">
+    <!-- Combined Filter and Alert Block -->
+    <div class="filter-alert-block">
+        <div class="filter-header">
+            <div class="filter-title">
+                <i class="fas fa-filter me-2"></i>
+                <span>Filter Documents</span>
+                {% if selected_publication %}
+                    <span class="filter-indicator">
+                        <i class="fas fa-check-circle ms-2"></i>
+                        Active Filter
+                    </span>
+                {% endif %}
+            </div>
+            {% if selected_publication %}
+            <div class="current-filter">
+                <span class="filter-label">Currently viewing:</span>
+                <span class="publication-name">
+                    {% for publication in publications %}
+                        {% if publication.id == selected_publication %}
+                            {{ publication.title|truncatechars:60 }}
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <a href="{% url 'documents:all-attachments' %}" class="clear-filter-btn">
+                    <i class="fas fa-times"></i> Clear
+                </a>
+            </div>
+            {% endif %}
+        </div>
 
+        <div class="filter-body">
+            <form method="get" action="{% url 'documents:all-attachments' %}" id="publicationFilterForm">
+                <div class="filter-controls">
+                    <div class="filter-select-wrapper">
+                        <select name="publication" id="publication-select" class="filter-select" onchange="this.form.submit()">
+                            <option value="">All Publications</option>
+                            {% for publication in publications %}
+                                <option value="{{ publication.id }}"
+                                    {% if selected_publication == publication.id %}selected{% endif %}>
+                                    {{ publication.title|truncatechars:120 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="filter-actions">
+                        <a href="{% url 'documents:all-attachments' %}" class="filter-btn reset-btn">
+                            <i class="fas fa-redo me-1"></i> Reset
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% if selected_publication %}
+        <div class="filter-footer">
+            <div class="filter-stats">
+                <span class="stat-item">
+                    <i class="fas fa-file me-1"></i>
+                    <span>{{ attachments|length }} document{{ attachments|length|pluralize }}</span>
+                </span>
+                <span class="stat-divider">•</span>
+                <span class="stat-item">
+                    <i class="fas fa-calendar me-1"></i>
+                    <span>
+                        {% with attachments|first as first_attachment %}
+                            {% if first_attachment %}
+                                {{ first_attachment.article.created_at|date:"d.m.Y" }}
+                            {% endif %}
+                        {% endwith %}
+                    </span>
+                </span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Documents Table -->
+    <div class="card shadow-sm documents-table-container">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -44,19 +124,19 @@
                         {% for attachment in attachments %}
                         <tr>
                             <td>
-                                <a onclick="openAttachmentModal('{{ attachment.id }}', '{{ attachment.file.url }}', '{{ attachment.name|escapejs }}', '{{ attachment.file.name|lower|slice:'-4:' }}')" class="learn-more-link" style="cursor: pointer;">
-                                {% if attachment.file.name|lower|slice:'-4:' == '.pdf' %}
-                                    <i class="fas fa-file-pdf text-danger me-2"></i>
-                                {% else %}
-                                    <i class="fas fa-file text-primary me-2"></i>
-                                {% endif %}
+                                <a onclick="openAttachmentModal('{{ attachment.id }}', '{{ attachment.file.url }}', '{{ attachment.name|escapejs }}', '{{ attachment.file.name|lower|slice:"-4:" }}')" class="learn-more-link" style="cursor: pointer;">
+                                    {% if attachment.file.name|lower|slice:'-4:' == '.pdf' %}
+                                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                                    {% else %}
+                                        <i class="fas fa-file text-primary me-2"></i>
+                                    {% endif %}
                                     <strong>
                                         {{ attachment.name|truncatewords:10 }}
                                     </strong>
                                 </a>
                             </td>
                             <td class="text-end">
-                                <a href="{% url 'articles:article-list' %}" class="text-decoration-none">
+                                <a href="{% url 'articles:article-detail' attachment.article.id %}" class="text-decoration-none">
                                     <strong>{{ attachment.article.title|truncatewords:10 }}</strong>
                                 </a>
                             </td>
@@ -65,7 +145,7 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm">
-                                    <a onclick="openAttachmentModal('{{ attachment.id }}', '{{ attachment.file.url }}', '{{ attachment.name|escapejs }}', '{{ attachment.file.name|lower|slice:'-4:' }}')" class="learn-more-link">click to learn <img src="{% static 'img/scroll-arrow-right.png' %}"></a>
+                                    <a onclick="openAttachmentModal('{{ attachment.id }}', '{{ attachment.file.url }}', '{{ attachment.name|escapejs }}', '{{ attachment.file.name|lower|slice:"-4:" }}')" class="learn-more-link">click to learn <img src="{% static 'img/scroll-arrow-right.png' %}"></a>
                                 </div>
                             </td>
                         </tr>
@@ -74,7 +154,18 @@
                             <td colspan="4" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fas fa-folder-open fa-2x mb-2"></i>
-                                    <p class="h5">No documents available</p>
+                                    <p class="h5">
+                                        {% if selected_publication %}
+                                            No documents found for this publication
+                                        {% else %}
+                                            No documents available
+                                        {% endif %}
+                                    </p>
+                                    {% if selected_publication %}
+                                    <p class="small mt-2">
+                                        Try selecting a different publication or <a href="{% url 'documents:all-attachments' %}">view all documents</a>
+                                    </p>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
@@ -88,7 +179,7 @@
                 <ul class="pagination justify-content-center mt-4">
                     {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if open_file_id %}&file={{ open_file_id }}{% endif %}" aria-label="Previous">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if selected_publication %}&publication={{ selected_publication }}{% endif %}{% if open_file_id %}&file={{ open_file_id }}{% endif %}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -104,13 +195,13 @@
                     {% if page_obj.number == num %}
                     <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
                     {% else %}
-                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if open_file_id %}&file={{ open_file_id }}{% endif %}">{{ num }}</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if selected_publication %}&publication={{ selected_publication }}{% endif %}{% if open_file_id %}&file={{ open_file_id }}{% endif %}">{{ num }}</a></li>
                     {% endif %}
                     {% endfor %}
 
                     {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if open_file_id %}&file={{ open_file_id }}{% endif %}" aria-label="Next">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if selected_publication %}&publication={{ selected_publication }}{% endif %}{% if open_file_id %}&file={{ open_file_id }}{% endif %}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -259,10 +350,12 @@ let currentScale = 1.0;
 let currentAttachmentId = null;
 let currentAttachmentName = null;
 
-// Function to get share link
+// Function to get share link with current filter
 function getShareLink(attachmentId) {
     const baseUrl = window.location.origin + window.location.pathname;
-    return `${baseUrl}?file=${attachmentId}`;
+    const params = new URLSearchParams(window.location.search);
+    params.set('file', attachmentId);
+    return `${baseUrl}?${params.toString()}`;
 }
 
 // Function to copy share link to clipboard
@@ -470,9 +563,17 @@ document.getElementById('attachmentModal').addEventListener('hidden.bs.modal', f
     pageNumPending = null;
     currentScale = 1.0;
 
-    // Clear URL parameter when modal is closed
-    const baseUrl = window.location.origin + window.location.pathname;
-    window.history.replaceState({}, '', baseUrl);
+    // Clear only the file parameter, keep other filters
+    const params = new URLSearchParams(window.location.search);
+    params.delete('file');
+
+    if (params.toString()) {
+        const baseUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, '', `${baseUrl}?${params.toString()}`);
+    } else {
+        const baseUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, '', baseUrl);
+    }
 });
 
 // Auto-open modal if file parameter is present in URL
@@ -527,7 +628,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle No button click
     document.getElementById('denyAccess').addEventListener('click', function() {
         // Redirect to home page
-        window.location.href = '/'; // Change this to your home page URL
+        window.location.href = '/';
     });
 });
 </script>
