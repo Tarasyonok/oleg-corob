@@ -26,6 +26,10 @@
   {% include 'includes/header.html' %}
   {% include 'includes/latest-articles.html' %}
 
+  <!-- Load PDF.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
+
   <main class="container">
     <!-- Content Block -->
     {% block content %}{% endblock %}

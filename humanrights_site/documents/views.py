@@ -19,7 +19,17 @@ class AllAttachmentsListView(django.views.generic.ListView):
         # Filter by selected publication if provided
         publication_id = self.request.GET.get('publication')
         if publication_id:
-            queryset = queryset.filter(article_id=publication_id)
+            try:
+                publication_id = int(publication_id)
+                if publication_id == 43:
+                    # If article 43 is selected, also include article 42
+                    queryset = queryset.filter(article_id__in=[42, 43])
+                else:
+                    # For other articles, only show that article
+                    queryset = queryset.filter(article_id=publication_id)
+            except (ValueError, TypeError):
+                # If publication_id is invalid, show all
+                pass
 
         return queryset.select_related('article').order_by('order')
 
